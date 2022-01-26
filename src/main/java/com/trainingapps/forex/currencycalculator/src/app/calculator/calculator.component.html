@@ -1,0 +1,47 @@
+<div class="wrapper">
+    <header>CURRENCY CONVERTER</header>
+    <form (ngSubmit)="calculate()" [formGroup]="currencyForm">
+      <div class="amount">
+        <p>Enter Amount</p>
+        <!-- <input type="text" minlength="4" value="amount" name="amount" ngModel required #amount=ngModel> -->
+        <input type="text" class="form-control" formControlName="amount">
+                            <span class="text-danger"
+                                *ngIf="(currencyFormControl['amount'].touched || submitted ) && currencyFormControl['amount'].errors?.['required']">
+                                Amount is required
+                            </span>
+        <!-- <small class="form-text text-muted" *ngIf="amount.touched&&!amount.valid ; then showMsg">Amount should be minimum 1000</small> -->
+        <!-- <small class="form-text text-muted"><ng-template #showMsg>Enter Amount to Calculate</ng-template></small> -->
+      </div>
+      <div class="drop-list">
+      <div class="from">
+        <p>From</p>
+        <div class="select-box"> 
+          <img src="{{fromImage}}" alt="The United States Of America flag"/><br>
+          <select id="country" formControlName="from"  (ngModelChange)="handleSelectionChange($event,'from')">
+            <option *ngFor="let c of countries" [ngValue]="c.name">{{ c.name }}</option>
+        </select>
+        </div>
+      </div><br>
+      <div class="icons"><i class="fas fa-exchange-alt"></i></div>
+      <div class="to">
+        <p>To</p>
+        <div class="select-box">
+            <img src="{{toImage}}" alt="The United States Of America flag"/><br>           
+            <select id="country" formControlName="to" (ngModelChange)="handleSelectionChange($event,'to')">
+              <option id="c.id" *ngFor="let c of countries" [ngValue]="c.name">{{ c.name }}</option>
+          </select>
+        </div>
+      </div>
+      </div><br>
+  
+      <div class="exchange-rate">
+        <p>Receipient Gets</p>
+        <p  *ngIf="totalAmount">{{currencyForm.value.amount}} {{currencyForm.value.from}} = {{totalAmount}} {{currencyForm.value.to}}</p>
+      </div><br><br>
+      <div class="container">
+        <button class="btn btn-primary" type="submit" [disabled]="currencyFormControl['amount'].errors">GENERATE RATE</button>
+      <button class="btn btn-secondary" type="button" (click)="transaction();">SEND MONEY</button> 
+      </div>
+    </form>
+
+  </div>
